@@ -1,5 +1,3 @@
-// src/context/trackContext.jsx
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 // Create a context for track data
@@ -9,7 +7,7 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://thingproxy.freeboard.io/fetch/";
+const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://thingproxy.freeboard.io/fetch/";  // Fix variable name to match the correct proxy
 const URL_API = process.env.REACT_APP_API_URL;
 
 export const TrackContextProvider = ({ children }) => {
@@ -18,14 +16,14 @@ export const TrackContextProvider = ({ children }) => {
     autoplay: false,
   });
   const [songReady, setSongReady] = useState(false);
-  const [indexTracklist, setIndexTracklist] = useState(0); // Ensure indexTracklist is initialized to 0
-  const [tracklist, setTracklist] = useState([]); // Added setTracklist to context
-  const [statusSong, setStatusSong] = useState(1); // 1: default song, 2: selected song, 3: artist songs
-  const [showMessageError, setShowMessageError] = useState(false); // Track error messages
+  const [indexTracklist, setIndexTracklist] = useState(0);
+  const [tracklist, setTracklist] = useState([]);
+  const [statusSong, setStatusSong] = useState(1);
+  const [showMessageError, setShowMessageError] = useState(false);
 
   // Fetch the default song on initial load
   useEffect(() => {
-    fetch(`${URL_CORS}${URL_API}track/603330352`)
+    fetch(`${CORS_PROXY}${URL_API}track/603330352`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -46,15 +44,15 @@ export const TrackContextProvider = ({ children }) => {
   // Function to skip to the next or previous song by song ID
   const skipSong = async (idSong) => {
     try {
-      const response = await fetch(`${URL_CORS}${URL_API}track/${idSong}`);
+      const response = await fetch(`${CORS_PROXY}${URL_API}track/${idSong}`);
       if (!response.ok) {
         throw new Error(
-          `Error fetching song: ${response.status} ${response.statusText}`,
+          `Error fetching song: ${response.status} ${response.statusText}`
         );
       }
       const song = await response.json();
       setCurrentSong({ song, autoplay: true });
-      setStatusSong(3); // Status for skipped song
+      setStatusSong(3);
     } catch (error) {
       console.error("Error skipping song:", error);
       setShowMessageError(true);
@@ -67,12 +65,11 @@ export const TrackContextProvider = ({ children }) => {
     setSongReady(false);
 
     try {
-      // Fetch the selected song details
-      const songResponse = await fetch(`${URL_CORS}${URL_API}track/${idSong}`);
+      const songResponse = await fetch(`${CORS_PROXY}${URL_API}track/${idSong}`);
 
       if (!songResponse.ok) {
         throw new Error(
-          `Error fetching song: ${songResponse.status} ${songResponse.statusText}`,
+          `Error fetching song: ${songResponse.status} ${songResponse.statusText}`
         );
       }
 
@@ -82,16 +79,16 @@ export const TrackContextProvider = ({ children }) => {
       urlTracklist = song.artist.tracklist;
 
       // Fetch the artist's tracklist
-      const tracklistResponse = await fetch(`${URL_CORS}${urlTracklist}`);
+      const tracklistResponse = await fetch(`${CORS_PROXY}${urlTracklist}`);
 
       if (!tracklistResponse.ok) {
         throw new Error(
-          `Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`,
+          `Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`
         );
       }
 
       const tracklist = await tracklistResponse.json();
-      setTracklist(tracklist.data); // Set the tracklist here
+      setTracklist(tracklist.data);
       setSongReady(true);
     } catch (error) {
       console.error("Error fetching or parsing song:", error);
@@ -118,8 +115,8 @@ export const TrackContextProvider = ({ children }) => {
         selectSong,
         skipSong,
         tracklist,
-        setTracklist, // Added setTracklist to context
-        indexTracklist, // Ensure indexTracklist is provided here
+        setTracklist,
+        indexTracklist,
         prevIndexTracklist,
         nextIndexTracklist,
         songReady,
