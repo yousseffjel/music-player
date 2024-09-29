@@ -5,11 +5,11 @@
 @tailwind utilities;
 
 .progress-bar-audio {
-  --bar-bg: #f9a8d4;
+  --bar-bg: #F9A8D4;
   --seek-before-width: 0;
-  --seek-before-color: #f472b6;
-  --knobby: #db2777;
-  --selectedKnobby: #be185d;
+  --seek-before-color: #F472B6;
+  --knobby: #DB2777;
+  --selectedKnobby: #BE185D;
 
   appearance: none;
   background: var(--bar-bg);
@@ -21,11 +21,11 @@
 }
 
 .progress-bar-volume {
-  --bar-bg: #f9a8d4;
+  --bar-bg: #F9A8D4;
   --seek-before-width: 90px;
-  --seek-before-color: #f472b6;
-  --knobby: #db2777;
-  --selectedKnobby: #be185d;
+  --seek-before-color: #F472B6;
+  --knobby: #DB2777;
+  --selectedKnobby: #BE185D;
 
   appearance: none;
   background: var (--bar-bg);

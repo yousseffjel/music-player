@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background-color: #1c1917;
+  background-color: #1C1917;
 }
 
 .logo {
@@ -46,7 +46,7 @@
 
 footer {
   color: #fff; /* White text color for visibility */
-  background-color: #1c1917; /* Dark background color */
+  background-color: #1C1917; /* Dark background color */
   padding: 10px 0; /* Padding for top and bottom */
   font-size: 16px; /* Appropriate text size */
   border-top: 1px solid #2c2c2c; /* Subtle top border for a visual separation */
