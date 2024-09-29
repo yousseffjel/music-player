@@ -9,8 +9,8 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const URL_CORS = process.env.REACT_APP_CORS_PROXY || ""; // Optional if using a CORS proxy
-const URL_API = process.env.REACT_APP_API_URL;  // Use the environment variable for API URL
+const URL_CORS = process.env.REACT_APP_CORS_PROXY || "https://cors-anywhere.herokuapp.com/"; // Use CORS proxy
+const URL_API = process.env.REACT_APP_API_URL;
 
 export const TrackContextProvider = ({ children }) => {
   const [currentSong, setCurrentSong] = useState({

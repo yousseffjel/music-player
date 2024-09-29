@@ -9,8 +9,8 @@ import TrackCard from "../TrackCard/TrackCard";
 
 const SearchBar = () => {
   const { setTracklist } = useTrackContext(); // Now this works because setTracklist is in context
-  const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || ""; // Optional proxy for CORS
-  const URL_SEARCH = endPoints.URL_SEARCH_API; // Using environment variables  
+  const URL_CORS = process.env.REACT_APP_CORS_PROXY || "https://cors-anywhere.herokuapp.com/"; // Use CORS proxy
+  const URL_API = process.env.REACT_APP_API_URL;   
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
