@@ -9,7 +9,7 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const URL_CORS = process.env.REACT_APP_CORS_PROXY || "https://cors-anywhere.herokuapp.com/"; // Use CORS proxy
+const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://thingproxy.freeboard.io/fetch/";
 const URL_API = process.env.REACT_APP_API_URL;
 
 export const TrackContextProvider = ({ children }) => {
