@@ -1,16 +1,17 @@
 import React, { useRef, useState } from "react";
 import { Kbd } from "@chakra-ui/react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { endPoints } from "../../utils/constants";
+import { endPoints } from "../../utils/constants"; // Importing constants
 import { useTrackContext } from "../../context/trackContext";
 import { Icon } from "../Stateless/Icon";
 import { LoadingResults } from "../Stateless/Loading/LoadingResults";
 import TrackCard from "../TrackCard/TrackCard";
 
 const SearchBar = () => {
-  const { setTracklist } = useTrackContext(); // Now this works because setTracklist is in context
-  const URL_CORS = process.env.REACT_APP_CORS_PROXY || "https://cors-anywhere.herokuapp.com/"; // Use CORS proxy
-  const URL_API = process.env.REACT_APP_API_URL;   
+  const { setTracklist } = useTrackContext(); // Using context to set the tracklist
+  // Use environment variables or constants as a fallback
+  const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || endPoints.CORS_PROXY_PROXY; 
+  const URL_SEARCH = endPoints.URL_SEARCH_API;
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
@@ -18,6 +19,7 @@ const SearchBar = () => {
   const [index, setIndex] = useState(1);
   const inputRef = useRef();
 
+  // Search tracks function to handle search input and fetch results
   const searchTracks = (e) => {
     e.preventDefault();
     setLoadingSearch(true);
@@ -26,21 +28,14 @@ const SearchBar = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.text();
+        return response.json(); // Parse the response as JSON
       })
-      .then((rawData) => {
-        console.log("Raw API response:", rawData);
-        try {
-          const parsedData = JSON.parse(rawData);
-          setLoadingSearch(false);
-          setIndex(1);
-          setCurrentPage(1);
-          setResults(parsedData);
-          setTracklist(parsedData.data); // Set tracklist in context
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-          setLoadingSearch(false);
-        }
+      .then((parsedData) => {
+        setLoadingSearch(false);
+        setIndex(1);
+        setCurrentPage(1);
+        setResults(parsedData);
+        setTracklist(parsedData.data); // Set the tracklist in context
       })
       .catch((error) => {
         setLoadingSearch(false);
@@ -48,6 +43,7 @@ const SearchBar = () => {
       });
   };
 
+  // Fetch next page of search results
   const nextSearch = () => {
     setLoadingSearch(true);
     fetch(`${CORS_PROXY}${results.next}`)
@@ -62,7 +58,7 @@ const SearchBar = () => {
         setIndex(index + 5);
         setCurrentPage(currentPage + 1);
         setResults(data);
-        setTracklist(data.data); // Set tracklist in context
+        setTracklist(data.data); // Update the tracklist
       })
       .catch((error) => {
         setLoadingSearch(false);
@@ -70,6 +66,7 @@ const SearchBar = () => {
       });
   };
 
+  // Fetch previous page of search results
   const prevSearch = () => {
     setLoadingSearch(true);
     fetch(`${CORS_PROXY}${results.prev}`)
@@ -84,7 +81,7 @@ const SearchBar = () => {
         setIndex(index - 5);
         setCurrentPage(currentPage - 1);
         setResults(data);
-        setTracklist(data.data); // Set tracklist in context
+        setTracklist(data.data); // Update the tracklist
       })
       .catch((error) => {
         setLoadingSearch(false);
