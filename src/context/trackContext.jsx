@@ -9,8 +9,8 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const URL_CORS = "http://localhost:8080/"; // CORS proxy to bypass CORS issues
-const URL_API = "https://api.deezer.com/"; // Deezer API
+const URL_CORS = process.env.REACT_APP_CORS_PROXY || ""; // Optional if using a CORS proxy
+const URL_API = process.env.REACT_APP_API_URL;  // Use the environment variable for API URL
 
 export const TrackContextProvider = ({ children }) => {
   const [currentSong, setCurrentSong] = useState({

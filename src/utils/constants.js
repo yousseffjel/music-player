@@ -1,8 +1,8 @@
 // src/utils/constants.js
 
-const CORS_PROXY_PROXY = "https://cors-anywhere.herokuapp.com/";
-const URL_API_DEEZER = "https://api.deezer.com/track/";
-const URL_SEARCH_API = "https://api.deezer.com/search?q=";
+const CORS_PROXY_PROXY = process.env.REACT_APP_CORS_PROXY || ""; // Optional for CORS proxy
+const URL_API_DEEZER = `${process.env.REACT_APP_API_URL}track/`;
+const URL_SEARCH_API = `${process.env.REACT_APP_API_URL}search?q=`;
 
 export const endPoints = {
   CORS_PROXY_PROXY,
