@@ -7,8 +7,8 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://thingproxy.freeboard.io/fetch/";  // Fix variable name to match the correct proxy
-const URL_API = process.env.REACT_APP_API_URL;
+const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url="; // Use AllOrigins proxy
+const URL_API = process.env.REACT_APP_API_URL || "https://api.deezer.com/";
 
 export const TrackContextProvider = ({ children }) => {
   const [currentSong, setCurrentSong] = useState({
