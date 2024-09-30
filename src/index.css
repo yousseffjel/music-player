@@ -20,7 +20,7 @@
   outline: none;
 }
 
-body {
+body.chakra-ui-light {
   background-color: #1D1817;
   color: #1D1817;
 }
