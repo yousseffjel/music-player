@@ -1,9 +1,8 @@
 // src/utils/constants.js
 
-const URL_API_DEEZER = process.env.REACT_APP_API_URL || "/api/track/";
-const URL_SEARCH_API = process.env.REACT_APP_SEARCH_API || "/api/search?q=";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "/api";
 
 export const endPoints = {
-  URL_API_DEEZER,
-  URL_SEARCH_API,
+  URL_API_DEEZER: `${API_BASE_URL}/track/`,
+  URL_SEARCH_API: `${API_BASE_URL}/search?q=`,
 };

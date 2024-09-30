@@ -1,30 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { endPoints } from '../utils/constants'; // Import endPoints from constants
+// src/context/trackContext.jsx
 
-// Create a context for track data
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { endPoints } from '../utils/constants';
+
 const TrackContext = createContext([]);
 
-// Hook to use the TrackContext
 export const useTrackContext = () => useContext(TrackContext);
 
-// Use API URL from endPoints
-const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url="; // Fallback to AllOrigins
-const URL_API = `${CORS_PROXY}${endPoints.URL_API_DEEZER}`;
-
 export const TrackContextProvider = ({ children }) => {
-  const [currentSong, setCurrentSong] = useState({
-    song: {},
-    autoplay: false,
-  });
+  const [currentSong, setCurrentSong] = useState({ song: {}, autoplay: false });
   const [songReady, setSongReady] = useState(false);
   const [indexTracklist, setIndexTracklist] = useState(0);
   const [tracklist, setTracklist] = useState([]);
   const [statusSong, setStatusSong] = useState(1);
   const [showMessageError, setShowMessageError] = useState(false);
 
-  // Fetch the default song on initial load
   useEffect(() => {
-    fetch(`${URL_API}603330352`) // No need to add 'track/' again, it's part of endPoints
+    fetch(`${endPoints.URL_API_DEEZER}603330352`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -42,14 +34,11 @@ export const TrackContextProvider = ({ children }) => {
       });
   }, []);
 
-  // Function to skip to the next or previous song by song ID
   const skipSong = async (idSong) => {
     try {
-      const response = await fetch(`${URL_API}${idSong}`); // No need to add 'track/' again
+      const response = await fetch(`${endPoints.URL_API_DEEZER}${idSong}`);
       if (!response.ok) {
-        throw new Error(
-          `Error fetching song: ${response.status} ${response.statusText}`
-        );
+        throw new Error(`Error fetching song: ${response.status} ${response.statusText}`);
       }
       const song = await response.json();
       setCurrentSong({ song, autoplay: true });
@@ -60,32 +49,25 @@ export const TrackContextProvider = ({ children }) => {
     }
   };
 
-  // Function to select a song based on the song ID
   const selectSong = async (idSong) => {
-    let urlTracklist = null;
     setSongReady(false);
 
     try {
-      const songResponse = await fetch(`${URL_API}${idSong}`); // No need to add 'track/' again
+      const songResponse = await fetch(`${endPoints.URL_API_DEEZER}${idSong}`);
 
       if (!songResponse.ok) {
-        throw new Error(
-          `Error fetching song: ${songResponse.status} ${songResponse.statusText}`
-        );
+        throw new Error(`Error fetching song: ${songResponse.status} ${songResponse.statusText}`);
       }
 
       const song = await songResponse.json();
       setCurrentSong({ song, autoplay: true });
       setStatusSong(2);
-      urlTracklist = song.artist.tracklist;
 
       // Fetch the artist's tracklist
-      const tracklistResponse = await fetch(`${CORS_PROXY}${urlTracklist}`); // Ensure CORS proxy is used for tracklist
+      const tracklistResponse = await fetch(song.artist.tracklist.replace('https://api.deezer.com', ''));
 
       if (!tracklistResponse.ok) {
-        throw new Error(
-          `Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`
-        );
+        throw new Error(`Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`);
       }
 
       const tracklist = await tracklistResponse.json();
@@ -98,33 +80,27 @@ export const TrackContextProvider = ({ children }) => {
   };
 
   const prevIndexTracklist = () => {
-    if (indexTracklist > 0) {
-      setIndexTracklist((prev) => prev - 1);
-    }
+    setIndexTracklist((prev) => Math.max(0, prev - 1));
   };
 
   const nextIndexTracklist = () => {
-    if (indexTracklist < tracklist.length - 1) {
-      setIndexTracklist((prev) => prev + 1);
-    }
+    setIndexTracklist((prev) => Math.min(tracklist.length - 1, prev + 1));
   };
 
   return (
-    <TrackContext.Provider
-      value={{
-        currentSong,
-        selectSong,
-        skipSong,
-        tracklist,
-        setTracklist,
-        indexTracklist,
-        prevIndexTracklist,
-        nextIndexTracklist,
-        songReady,
-        statusSong,
-        showMessageError,
-      }}
-    >
+    <TrackContext.Provider value={{
+      currentSong,
+      selectSong,
+      skipSong,
+      tracklist,
+      setTracklist,
+      indexTracklist,
+      prevIndexTracklist,
+      nextIndexTracklist,
+      songReady,
+      statusSong,
+      showMessageError,
+    }}>
       {children}
     </TrackContext.Provider>
   );
