@@ -8,7 +8,7 @@
   export const useTrackContext = () => useContext(TrackContext);
 
   // Use API URL from endPoints
-  const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url=";
+  const CORS_PROXY = process.env.REACT_APP_CORS_PROXY
   const URL_API = `${CORS_PROXY}${endPoints.URL_API_DEEZER}`;
   
   export const TrackContextProvider = ({ children }) => {
