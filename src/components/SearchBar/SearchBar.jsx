@@ -11,13 +11,13 @@ const SearchBar = () => {
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);  // For pagination
-  const [index, setIndex] = useState(0);  // For API query offset
+  const [currentPage, setCurrentPage] = useState(1); // For pagination
+  const [index, setIndex] = useState(0); // For API query offset
   const inputRef = useRef();
 
   // Search tracks function to handle search input and fetch results
   const searchTracks = (e) => {
-    e.preventDefault();  // Prevent default form submission behavior
+    e.preventDefault(); // Prevent default form submission behavior
     setLoadingSearch(true);
 
     const URL_SEARCH = `/api/search?q=${inputRef.current.value}&limit=5&index=${index}`;
@@ -27,12 +27,12 @@ const SearchBar = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json();  // Parse the response as JSON
+        return response.json(); // Parse the response as JSON
       })
       .then((parsedData) => {
         setLoadingSearch(false);
         setResults(parsedData);
-        setTracklist(parsedData.data);  // Set the tracklist in context
+        setTracklist(parsedData.data); // Set the tracklist in context
       })
       .catch((error) => {
         setLoadingSearch(false);
@@ -42,17 +42,17 @@ const SearchBar = () => {
 
   // Go to the next page of results
   const nextPage = () => {
-    setCurrentPage(currentPage + 1);  // Increment the page
-    setIndex(index + 5);  // Increase index by 5 (or whatever the limit is)
-    searchTracks({ preventDefault: () => {} });  // Trigger search with updated index
+    setCurrentPage(currentPage + 1); // Increment the page
+    setIndex(index + 5); // Increase index by 5 (or whatever the limit is)
+    searchTracks({ preventDefault: () => {} }); // Trigger search with updated index
   };
 
   // Go to the previous page of results
   const prevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);  // Decrease the page
-      setIndex(index - 5);  // Decrease index by 5
-      searchTracks({ preventDefault: () => {} });  // Trigger search with updated index
+      setCurrentPage(currentPage - 1); // Decrease the page
+      setIndex(index - 5); // Decrease index by 5
+      searchTracks({ preventDefault: () => {} }); // Trigger search with updated index
     }
   };
 
@@ -60,7 +60,6 @@ const SearchBar = () => {
     <div className="w-full max-w-2xl px-0 mx-auto lg:max-w-xl">
       <div className="px-4 py-6 space-y-5 lg:space-y-3 lg:py-0">
         <form onSubmit={searchTracks} className="relative overflow-visible">
-          {/* Search Icon */}
           <button
             type="button"
             onClick={searchTracks}
