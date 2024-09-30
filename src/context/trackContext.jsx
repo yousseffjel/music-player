@@ -7,8 +7,7 @@ const TrackContext = createContext([]);
 export const useTrackContext = () => useContext(TrackContext);
 
 // CORS Proxy and API URL
-const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url="; // Use AllOrigins proxy
-const URL_API = process.env.REACT_APP_API_URL || "https://api.deezer.com/";
+const URL_API = endPoints.URL_API_DEEZER;
 
 export const TrackContextProvider = ({ children }) => {
   const [currentSong, setCurrentSong] = useState({
@@ -23,7 +22,7 @@ export const TrackContextProvider = ({ children }) => {
 
   // Fetch the default song on initial load
   useEffect(() => {
-    fetch(`${CORS_PROXY}${URL_API}track/603330352`)
+    fetch(`${URL_CORS}${URL_API}track/603330352`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
