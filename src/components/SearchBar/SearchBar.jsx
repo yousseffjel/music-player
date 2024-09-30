@@ -47,7 +47,8 @@ const SearchBar = () => {
   // Fetch next page of search results
   const nextSearch = () => {
     setLoadingSearch(true);
-    fetch(results.next)
+    const nextUrl = results.next.replace('https://api.deezer.com', '/api');
+    fetch(nextUrl)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -70,7 +71,8 @@ const SearchBar = () => {
   // Fetch previous page of search results
   const prevSearch = () => {
     setLoadingSearch(true);
-    fetch(results.prev)
+    const prevUrl = results.prev.replace('https://api.deezer.com', '/api');
+    fetch(prevUrl)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
