@@ -11,13 +11,13 @@ const SearchBar = () => {
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1); // For pagination
-  const [index, setIndex] = useState(0); // For API query offset
+  const [currentPage, setCurrentPage] = useState(1);  // For pagination
+  const [index, setIndex] = useState(0);  // For API query offset
   const inputRef = useRef();
 
   // Search tracks function to handle search input and fetch results
   const searchTracks = (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();  // Prevent default form submission behavior
     setLoadingSearch(true);
 
     const URL_SEARCH = `/api/search?q=${inputRef.current.value}&limit=5&index=${index}`;
@@ -27,12 +27,12 @@ const SearchBar = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        return response.json(); // Parse the response as JSON
+        return response.json();  // Parse the response as JSON
       })
       .then((parsedData) => {
         setLoadingSearch(false);
         setResults(parsedData);
-        setTracklist(parsedData.data); // Set the tracklist in context
+        setTracklist(parsedData.data);  // Set the tracklist in context
       })
       .catch((error) => {
         setLoadingSearch(false);
@@ -60,9 +60,10 @@ const SearchBar = () => {
     <div className="w-full max-w-2xl px-0 mx-auto lg:max-w-xl">
       <div className="px-4 py-6 space-y-5 lg:space-y-3 lg:py-0">
         <form onSubmit={searchTracks} className="relative overflow-visible">
+          {/* Search Icon Button */}
           <button
-            type="button"
-            onClick={searchTracks}
+            type="button"  // Set type to button to prevent form submission
+            onClick={searchTracks}  // Trigger search function on click
             className="absolute inset-y-0 left-0 flex items-center pl-3 text-pink-400 sm:text-sm"
           >
             <Icon icon={faSearch} className="text-base" />
