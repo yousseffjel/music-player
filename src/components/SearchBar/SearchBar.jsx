@@ -11,7 +11,6 @@ const SearchBar = () => {
   const { setTracklist } = useTrackContext(); // Using context to set the tracklist
   // Use environment variables or constants as a fallback
   const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url=";
-  const URL_SEARCH = `${endPoints.URL_SEARCH_API}${inputRef.current.value}&limit=5&index=0`;
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
@@ -23,7 +22,10 @@ const SearchBar = () => {
   const searchTracks = (e) => {
     e.preventDefault();
     setLoadingSearch(true);
-    fetch(`${CORS_PROXY}${URL_SEARCH}${inputRef.current.value}&limit=5&index=0`)
+  
+    const URL_SEARCH = `${endPoints.URL_SEARCH_API}${inputRef.current.value}&limit=5&index=0`;
+  
+    fetch(`${CORS_PROXY}${URL_SEARCH}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -42,6 +44,7 @@ const SearchBar = () => {
         console.error("Error fetching tracks:", error);
       });
   };
+  
 
   // Fetch next page of search results
   const nextSearch = () => {
