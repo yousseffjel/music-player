@@ -1,7 +1,6 @@
 // src/context/trackContext.jsx
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { endPoints } from '../utils/constants';
 
 const TrackContext = createContext([]);
 
@@ -15,8 +14,9 @@ export const TrackContextProvider = ({ children }) => {
   const [statusSong, setStatusSong] = useState(1);
   const [showMessageError, setShowMessageError] = useState(false);
 
+  // Default song request updated to use the /api proxy path
   useEffect(() => {
-    fetch(`${endPoints.URL_API_DEEZER}603330352`)
+    fetch(`/api/track/603330352`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -34,9 +34,10 @@ export const TrackContextProvider = ({ children }) => {
       });
   }, []);
 
+  // Skipping song request updated to use the /api proxy path
   const skipSong = async (idSong) => {
     try {
-      const response = await fetch(`${endPoints.URL_API_DEEZER}${idSong}`);
+      const response = await fetch(`/api/track/${idSong}`);
       if (!response.ok) {
         throw new Error(`Error fetching song: ${response.status} ${response.statusText}`);
       }
@@ -49,11 +50,12 @@ export const TrackContextProvider = ({ children }) => {
     }
   };
 
+  // Selecting song and fetching artist's tracklist updated to use the /api proxy path
   const selectSong = async (idSong) => {
     setSongReady(false);
 
     try {
-      const songResponse = await fetch(`${endPoints.URL_API_DEEZER}${idSong}`);
+      const songResponse = await fetch(`/api/track/${idSong}`);
 
       if (!songResponse.ok) {
         throw new Error(`Error fetching song: ${songResponse.status} ${songResponse.statusText}`);
@@ -63,8 +65,8 @@ export const TrackContextProvider = ({ children }) => {
       setCurrentSong({ song, autoplay: true });
       setStatusSong(2);
 
-      // Fetch the artist's tracklist
-      const tracklistResponse = await fetch(song.artist.tracklist.replace('https://api.deezer.com', ''));
+      // Fetch the artist's tracklist, assuming the tracklist path is correct
+      const tracklistResponse = await fetch(song.artist.tracklist.replace('https://api.deezer.com', '/api'));
 
       if (!tracklistResponse.ok) {
         throw new Error(`Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`);

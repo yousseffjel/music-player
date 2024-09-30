@@ -10,7 +10,6 @@ import TrackCard from "../TrackCard/TrackCard";
 const SearchBar = () => {
   const { setTracklist } = useTrackContext(); // Using context to set the tracklist
   // Use environment variables or constants as a fallback
-  const CORS_PROXY = process.env.REACT_APP_CORS_PROXY || "https://api.allorigins.win/raw?url=";
 
   const [results, setResults] = useState({ data: [] });
   const [loadingSearch, setLoadingSearch] = useState(false);
@@ -25,7 +24,7 @@ const SearchBar = () => {
   
     const URL_SEARCH = `${endPoints.URL_SEARCH_API}${inputRef.current.value}&limit=5&index=0`;
   
-    fetch(`${CORS_PROXY}${URL_SEARCH}`)
+    fetch(URL_SEARCH)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -49,7 +48,7 @@ const SearchBar = () => {
   // Fetch next page of search results
   const nextSearch = () => {
     setLoadingSearch(true);
-    fetch(`${CORS_PROXY}${results.next}`)
+    fetch(results.next)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -72,7 +71,7 @@ const SearchBar = () => {
   // Fetch previous page of search results
   const prevSearch = () => {
     setLoadingSearch(true);
-    fetch(`${CORS_PROXY}${results.prev}`)
+    fetch(results.prev)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
