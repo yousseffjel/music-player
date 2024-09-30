@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Kbd } from "@chakra-ui/react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { endPoints } from "../../utils/constants"; // Importing constants
 import { useTrackContext } from "../../context/trackContext";
 import { Icon } from "../Stateless/Icon";
 import { LoadingResults } from "../Stateless/Loading/LoadingResults";
@@ -22,7 +21,7 @@ const SearchBar = () => {
     e.preventDefault();
     setLoadingSearch(true);
   
-    const URL_SEARCH = `${endPoints.URL_SEARCH_API}${inputRef.current.value}&limit=5&index=0`;
+    const URL_SEARCH = `/api/search?q=${inputRef.current.value}&limit=5&index=0`;
   
     fetch(URL_SEARCH)
       .then((response) => {
