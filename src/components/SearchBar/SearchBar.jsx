@@ -1,8 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Kbd } from "@chakra-ui/react";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useTrackContext } from "../../context/trackContext";
-import { Icon } from "../Stateless/Icon";
 import { LoadingResults } from "../Stateless/Loading/LoadingResults";
 import TrackCard from "../TrackCard/TrackCard";
 
@@ -59,25 +56,19 @@ const SearchBar = () => {
   return (
     <div className="w-full max-w-2xl px-0 mx-auto lg:max-w-xl">
       <div className="px-4 py-6 space-y-5 lg:space-y-3 lg:py-0">
-        <form onSubmit={searchTracks} className="relative overflow-visible">
-          <button
-            type="button" // Ensure this is a button to prevent form submission
-            onClick={searchTracks} // Call the search function on click
-            className="absolute inset-y-0 left-0 flex items-center pl-3 text-pink-400 sm:text-sm"
-          >
-            <Icon icon={faSearch} className="text-base" />
-          </button>
+        <form onSubmit={searchTracks} className="relative overflow-visible flex">
           <input
             type="text"
             ref={inputRef}
             placeholder="Search"
-            className="block w-full py-2 pl-10 border rounded-lg placeholder:text-stone-400 focus:placeholder:text-pink-400 border-stone-500 focus:border-pink-400 focus:shadow focus:shadow-pink-400/50 bg-stone-900 pr-11 focus:outline-none"
+            className="block w-full py-2 pl-3 border rounded-lg placeholder:text-stone-400 focus:placeholder:text-pink-400 border-stone-500 focus:border-pink-400 focus:shadow focus:shadow-pink-400/50 bg-stone-900 pr-11 focus:outline-none"
           />
-          <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-lg text-stone-800">
-            <Kbd>
-              Enter<span className="ml-0.5">↵</span>
-            </Kbd>
-          </span>
+          <button
+            type="submit" // Submit type to trigger form submission
+            className="px-4 py-2 text-white bg-pink-500 rounded hover:bg-pink-400 ml-2"
+          >
+            Search
+          </button>
         </form>
 
         {/* Results Section */}
