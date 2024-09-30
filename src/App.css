@@ -4,6 +4,12 @@
   padding: 2rem;
   text-align: center;
   background-color: #1D1817;
+  color: #1D1817;
+}
+
+body {
+  background-color: #1D1817;
+  color: #1D1817;
 }
 
 .logo {

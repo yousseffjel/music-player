@@ -51,7 +51,7 @@ const TrackCard = ({ track }) => {
         </button>
         <div className="flex grow flex-col w-0 min-w-0 justify-between py-0.5">
           <div className="min-w-0">
-            <p className="text-xs text-blue-400 truncate">
+            <p className="text-xs text-pink-400 truncate">
               {track.album.title}
             </p>
             <p className="text-lg truncate">{track.title}</p>

@@ -20,6 +20,11 @@
   outline: none;
 }
 
+body {
+  background-color: #1D1817;
+  color: #1D1817;
+}
+
 .progress-bar-volume {
   --bar-bg: #3b82f6;
   --seek-before-width: 90px;
