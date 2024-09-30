@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { endPoints } from '../utils/constants'; // Import endPoints from constants
 
 // Create a context for track data
 const TrackContext = createContext([]);
@@ -6,7 +7,7 @@ const TrackContext = createContext([]);
 // Hook to use the TrackContext
 export const useTrackContext = () => useContext(TrackContext);
 
-// CORS Proxy and API URL
+// Use API URL from endPoints
 const URL_API = endPoints.URL_API_DEEZER;
 
 export const TrackContextProvider = ({ children }) => {
@@ -22,7 +23,7 @@ export const TrackContextProvider = ({ children }) => {
 
   // Fetch the default song on initial load
   useEffect(() => {
-    fetch(`${URL_CORS}${URL_API}track/603330352`)
+    fetch(`${URL_API}track/603330352`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
@@ -43,7 +44,7 @@ export const TrackContextProvider = ({ children }) => {
   // Function to skip to the next or previous song by song ID
   const skipSong = async (idSong) => {
     try {
-      const response = await fetch(`${CORS_PROXY}${URL_API}track/${idSong}`);
+      const response = await fetch(`${URL_API}track/${idSong}`);
       if (!response.ok) {
         throw new Error(
           `Error fetching song: ${response.status} ${response.statusText}`
@@ -64,7 +65,7 @@ export const TrackContextProvider = ({ children }) => {
     setSongReady(false);
 
     try {
-      const songResponse = await fetch(`${CORS_PROXY}${URL_API}track/${idSong}`);
+      const songResponse = await fetch(`${URL_API}track/${idSong}`);
 
       if (!songResponse.ok) {
         throw new Error(
@@ -78,7 +79,7 @@ export const TrackContextProvider = ({ children }) => {
       urlTracklist = song.artist.tracklist;
 
       // Fetch the artist's tracklist
-      const tracklistResponse = await fetch(`${CORS_PROXY}${urlTracklist}`);
+      const tracklistResponse = await fetch(urlTracklist);
 
       if (!tracklistResponse.ok) {
         throw new Error(
