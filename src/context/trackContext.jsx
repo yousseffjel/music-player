@@ -16,7 +16,7 @@ export const TrackContextProvider = ({ children }) => {
 
   // Default song request updated to use the /api proxy path
   useEffect(() => {
-    fetch(`/api/track/603330352`)
+    fetch(`/api/track/3135556`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
