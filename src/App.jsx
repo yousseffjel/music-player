@@ -10,7 +10,7 @@ const App = () => {
       <div className="min-h-screen py-10 text-white bg-stone-900 font-inter">
         <div className="flex flex-col items-center h-full mx-auto space-y-9 max-w-7xl">
           <div className="flex flex-col items-center">
-            <p className="py-1 text-5xl font-bold text-transparent cursor-default sm:text-6xl bg-gradient-to-r from-pink-600 via-pink-500 to-pink-400 bg-clip-text">
+            <p className="py-1 text-5xl font-bold text-transparent cursor-default sm:text-6xl bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 bg-clip-text">
               Music Player
             </p>
           </div>

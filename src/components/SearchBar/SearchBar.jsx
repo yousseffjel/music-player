@@ -61,11 +61,11 @@ const SearchBar = () => {
             type="text"
             ref={inputRef}
             placeholder="Search"
-            className="block w-full py-2 pl-3 border rounded-lg placeholder:text-stone-400 focus:placeholder:text-pink-400 border-stone-500 focus:border-pink-400 focus:shadow focus:shadow-pink-400/50 bg-stone-900 pr-11 focus:outline-none"
+            className="block w-full py-2 pl-3 border rounded-lg placeholder:text-stone-400 focus:placeholder:text-blue-400 border-stone-500 focus:border-blue-400 focus:shadow focus:shadow-blue-400/50 bg-stone-900 pr-11 focus:outline-none"
           />
           <button
             type="submit" // Submit type to trigger form submission
-            className="px-4 py-2 text-white bg-pink-500 rounded hover:bg-pink-400 ml-2"
+            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-400 ml-2"
           >
             Search
           </button>

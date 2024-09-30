@@ -127,7 +127,7 @@ const MusicPlayer = () => {
   return (
     <div className="px-4 w-full lg:px-2 xs:max-w-[460px] md:w-[460px]">
       <div className="px-6 py-5 space-y-2 border-b bg-stone-800 border-stone-500 rounded-t-xl ">
-        <div className="text-lg text-pink-600">
+        <div className="text-lg text-blue-600">
           {statusSong === 1 ? (
             <p className="font-semibold">Default song</p>
           ) : statusSong === 2 ? (
@@ -148,7 +148,7 @@ const MusicPlayer = () => {
               />
             )}
             <div className="flex flex-col justify-end min-w-0 space-y-1 font-semibold">
-              <p className="text-xs text-pink-400 truncate">
+              <p className="text-xs text-blue-400 truncate">
                 {currentSong?.song?.album?.title}
               </p>
               <h2 className="text-sm truncate text-stone-400">
@@ -213,7 +213,7 @@ const MusicPlayer = () => {
           <button
             onClick={togglePlayPause}
             type="button"
-            className="flex items-center justify-center flex-none mx-auto my-2.5 rounded-full shadow-md w-11 h-11 bg-slate-100 text-pink-600 ring-1 ring-slate-900/5"
+            className="flex items-center justify-center flex-none mx-auto my-2.5 rounded-full shadow-md w-11 h-11 bg-slate-100 text-blue-600 ring-1 ring-slate-900/5"
             aria-label="Pause"
           >
             {!isPlaying ? (
