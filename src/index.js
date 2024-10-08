@@ -1,17 +1,20 @@
-// src/index.js
+// Entry point of the React application.
+// It sets up the root element, imports necessary providers, and renders the App component.
 
 import { ChakraProvider } from "@chakra-ui/react";
 import React from "react";
-import { createRoot } from "react-dom/client"; // Updated import for React 18
+import { createRoot } from "react-dom/client"; // Updated for React 18
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css"; // Import Tailwind CSS
 
-// Get the root DOM element
+// Get the root DOM element where the app will be rendered
 const container = document.getElementById("root");
 
-// Create a root and render the app using createRoot
-const root = createRoot(container); // Updated to use createRoot
+// Create a root using React 18's createRoot method
+const root = createRoot(container);
+
+// Render the App component wrapped in providers for routing and Chakra UI theming
 root.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -19,5 +22,5 @@ root.render(
         <App />
       </ChakraProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
