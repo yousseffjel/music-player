@@ -1,9 +1,12 @@
-[build]
-  command = "yarn build"
-  publish = "build"
+# Netlify build settings and API proxy configuration
 
+[build]
+  command = "yarn build"  # Build the project using Yarn
+  publish = "build"  # Publish the build directory
+
+# Redirect all API requests starting with /api/* to the Deezer API
 [[redirects]]
   from = "/api/*"
   to = "https://api.deezer.com/:splat"
-  status = 200
-  force = true
+  status = 200  # Keep status 200 for successful proxying
+  force = true  # Force the redirect
