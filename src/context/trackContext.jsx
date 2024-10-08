@@ -1,15 +1,12 @@
-// TrackContext manages the state for the current song, tracklist, and playback functionality
+// src/context/trackContext.jsx
+
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-// Create a new context for track state
 const TrackContext = createContext([]);
 
-// Custom hook to use trackContext
 export const useTrackContext = () => useContext(TrackContext);
 
-// TrackContextProvider component provides the context to all child components
 export const TrackContextProvider = ({ children }) => {
-  // State variables for current song, tracklist, song status, etc.
   const [currentSong, setCurrentSong] = useState({ song: {}, autoplay: false });
   const [songReady, setSongReady] = useState(false);
   const [indexTracklist, setIndexTracklist] = useState(0);
@@ -17,60 +14,77 @@ export const TrackContextProvider = ({ children }) => {
   const [statusSong, setStatusSong] = useState(1);
   const [showMessageError, setShowMessageError] = useState(false);
 
-  // Fetch and set default song on initial load
+  // Default song request updated to use the /api proxy path
   useEffect(() => {
-    fetch(`/api/track/3135556`)  // Default song from Deezer API
-      .then((response) => response.json())
+    fetch(`/api/track/3135556`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
       .then((song) => {
+        setShowMessageError(false);
         setCurrentSong({ song, autoplay: false });
-        setStatusSong(1);  // Default song status
+        setStatusSong(1);
       })
       .catch((err) => {
         console.error("Error fetching default song:", err);
-        setShowMessageError(true);  // Show error message if API fails
+        setShowMessageError(true);
       });
   }, []);
 
-  // Skip to a song based on its ID
+  // Skipping song request updated to use the /api proxy path
   const skipSong = async (idSong) => {
     try {
-      const response = await fetch(`/api/track/${idSong}`);  // Fetch song from API
+      const response = await fetch(`/api/track/${idSong}`);
+      if (!response.ok) {
+        throw new Error(`Error fetching song: ${response.status} ${response.statusText}`);
+      }
       const song = await response.json();
       setCurrentSong({ song, autoplay: true });
-      setStatusSong(3);  // Update status to artist's songs
+      setStatusSong(3);
     } catch (error) {
       console.error("Error skipping song:", error);
-      setShowMessageError(true);  // Show error if song skip fails
+      setShowMessageError(true);
     }
   };
 
-  // Select a song and fetch artist's tracklist
+  // Selecting song and fetching artist's tracklist updated to use the /api proxy path
   const selectSong = async (idSong) => {
     setSongReady(false);
 
     try {
-      const songResponse = await fetch(`/api/track/${idSong}`);  // Fetch the song
+      const songResponse = await fetch(`/api/track/${idSong}`);
+
+      if (!songResponse.ok) {
+        throw new Error(`Error fetching song: ${songResponse.status} ${songResponse.statusText}`);
+      }
+
       const song = await songResponse.json();
       setCurrentSong({ song, autoplay: true });
-      setStatusSong(2);  // Set status to selected song
+      setStatusSong(2);
 
-      // Fetch the artist's tracklist
+      // Fetch the artist's tracklist, assuming the tracklist path is correct
       const tracklistResponse = await fetch(song.artist.tracklist.replace('https://api.deezer.com', '/api'));
+
+      if (!tracklistResponse.ok) {
+        throw new Error(`Error fetching tracklist: ${tracklistResponse.status} ${tracklistResponse.statusText}`);
+      }
+
       const tracklist = await tracklistResponse.json();
-      setTracklist(tracklist.data);  // Update tracklist
-      setSongReady(true);  // Mark song as ready to play
+      setTracklist(tracklist.data);
+      setSongReady(true);
     } catch (error) {
       console.error("Error fetching or parsing song:", error);
       setShowMessageError(true);
     }
   };
 
-  // Update index to previous track
   const prevIndexTracklist = () => {
     setIndexTracklist((prev) => Math.max(0, prev - 1));
   };
 
-  // Update index to next track
   const nextIndexTracklist = () => {
     setIndexTracklist((prev) => Math.min(tracklist.length - 1, prev + 1));
   };
